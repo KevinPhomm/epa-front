@@ -1,28 +1,87 @@
-.App {
-  text-align: center;
+.App{
+  height: 90vh;
+  width: 100vw;
+  display:flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin-top: 10vh;
+
+}
+.header{
+  position: absolute;
+  top: 0;
+  width : 100vw;
+  height: 10vh;
+  background-color: #474747;
+  display: flex;
+  justify-content: space-between;
+align-items: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.header button{
+  width : 100px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.logo{
+  height: 60%;
+  width: auto;
 }
 
-.App-title {
-  font-size: 1.5em;
+.column{
+  flex:1;
+  height: 100%;
+  background-color: rgb(212, 212, 212);
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.empty-column{
+  flex:1;
+  height: 100%;
+  opacity: 0;
+  background-color: rgb(212, 212, 212);
+
+  transition: opacity 0.2s ease;
+
 }
 
-.App-intro {
-  font-size: large;
+.line {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.icon {
+  width: 50px;
+  height: auto;
+}
+
+.picto {
+  width : 150px;
+  height: auto;
+}
+
+.greyer{
+  background-color: rgb(186, 186, 186);
+
+}
+
+.greyeryer{
+  background-color: rgb(128, 128, 128);
+
+}
+
+.filezoom{
+  display : flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+}
+
+button{
+  width: 50% ;
+  height: 50px;
+  margin: 25px
+
 }
