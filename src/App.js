@@ -9,7 +9,7 @@ class App extends Component {
       {name : "Etape 1",
           type :"dir",
           content : [
-                      {name : "Authorisation",
+                      {name : "Autorisation",
                         type : "file",
                         extension : "pdf"}
                     ]
