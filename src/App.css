@@ -11,37 +11,85 @@
   position: absolute;
   top: 0;
   width : 100vw;
-  height: 10vh;
-  background-color: #474747;
+  height: 80px;
+  background-color: #ECECEC;
+  box-shadow: 0px 3px 5px #888888;
   display: flex;
   justify-content: space-between;
-align-items: center;
+  align-items: center;
+  z-index: 99;
 }
 
 .header button{
-  width : 100px;
+  background-color: rgba(0,0,0,0);
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 0 15px;
+  cursor: pointer;
+  width: 160px;
+  height: 40px;
+  margin: 25px;
+}
+
+.header button:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.header button img {
+  height: 20px;
 }
 
 .logo{
   height: 60%;
   width: auto;
+  margin-left: 20px;
 }
 
 .column{
   flex:1;
   height: 100%;
-  background-color: rgb(212, 212, 212);
+  background-color: #FFFFFF;
   opacity: 1;
   transition: opacity 0.2s ease;
+  box-shadow: 3px 0px 5px #888888;
+  z-index: 98;
 }
+
+.column button {
+  background-color: rgba(0,0,0,0);
+  border: 2px solid black;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+}
+
+.column button:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.column button img {
+  height: 20px;
+  margin-right: 7px;
+}
+
 .empty-column{
   flex:1;
   height: 100%;
   opacity: 0;
-  background-color: rgb(212, 212, 212);
-
+  background-color: #FFFFFF;
   transition: opacity 0.2s ease;
-
 }
 
 .line {
@@ -49,11 +97,30 @@ align-items: center;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.line:hover {
+  background-color: #c4f1ff;
+}
+
+.checkbox {
+  -webkit-appearance: checkbox;
+  background-color: rgba(0,0,0,0);
+  border: 3px solid black;
+  height: 15px;
+  width: 15px;
+}
+
+.checkbox:hover {
+  border-color: #4778d9;
 }
 
 .icon {
   width: 50px;
   height: auto;
+  margin: 0 10px;
 }
 
 .picto {
@@ -61,27 +128,20 @@ align-items: center;
   height: auto;
 }
 
-.greyer{
-  background-color: rgb(186, 186, 186);
-
+.column2{
+  background-color: #FFFFFF;
+  z-index: 97;
 }
 
-.greyeryer{
-  background-color: rgb(128, 128, 128);
-
+.column3{
+  background-color: #FFFFFF;
+  z-index: 96;
 }
 
 .filezoom{
-  display : flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   height: 100%;
-}
-
-button{
-  width: 50% ;
-  height: 50px;
-  margin: 25px
-
 }
