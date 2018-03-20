@@ -17,49 +17,38 @@ import excel_icon from "./ressources/xls.png"
 class App extends Component {
 
   state={
-    data : [
-      {name : "Etape 1",
-          type :"dir",
-          content : [
-                      {name : "Autorisation",
-                        type : "file",
-                        extension : "pdf"}
-                    ]
-      },
-      {name : "Etape 2",
-          type :"dir",
-          content : [
-                      {name : "Excel",
-                        type : "file",
-                        extension : "pdf"}
-                    ]
-      },
-      {name : "Etape 3",
-          type :"dir",
-          content : [
-                      {name : "Certificat",
-                        type : "file",
-                        extension : "pdf"}
-                    ]
-
-      },
-    ],
+    data : [],
 
     columnone : [],
     columntwo : [],
+    columnthree:[],
     file : undefined,
 
 
 
   }
 
+  componentDidMount(){
+    this._init();
 
+  }
+
+  _init(){
+    fetch("http://epa-backoffice.herokuapp.com/public/api/list")
+    .then(r=>r.json())
+    .then((json)=>{
+      this.setState({
+        data: json,
+        columnone:json
+      })
+    })
+  }
 
   render() {
 
     let column = []
 
-    this.state.data.forEach((line,index)=>{
+      this.state.columnone.forEach((line,index)=>{
 
       let icon = "";
       if (line.type==="dir"){
@@ -80,11 +69,10 @@ class App extends Component {
       // Icône pdf
 
       column.push(
-        <div className="line" onClick={()=>this.openContent(index)}>
+        <div className="line" onClick={()=>this.openContentToColumnTwo(index,line.path)}>
           <input className="checkbox" type="checkbox"/>
           <img className="icon" src={icon} />
-
-          <h3> {line.name} </h3>
+          <h3> {line.filename} </h3>
         </div>
       )
     })
@@ -93,10 +81,22 @@ class App extends Component {
 
     this.state.columntwo.forEach((line,index)=>{
       columntwo.push(
-        <div className="line" onClick={()=>this.openFile(line)}>
+        <div className="line" onClick={()=>this.openContentToColumnThree(index,line.path)}>
           <input className="checkbox" type="checkbox"/>
           <img className="icon" src={line.type === "dir" ?  "http://www.icone-png.com/png/37/36873.png" : "https://sendeyo.com/images/file.png"}/>
-          <h3> {line.name} </h3>
+          <h3> {line.filename} </h3>
+        </div>
+      )
+    })
+
+    let columnthree = []
+
+    this.state.columnthree.forEach((line,index)=>{
+      columnthree.push(
+        <div className="line" onClick={()=>this.openFile(index,line.path)}>
+          <input className="checkbox" type="checkbox"/>
+          <img className="icon" src={line.type === "dir" ?  "http://www.icone-png.com/png/37/36873.png" : "https://sendeyo.com/images/file.png"}/>
+          <h3> {line.filename} </h3>
         </div>
       )
     })
@@ -108,7 +108,7 @@ class App extends Component {
       <div className="filezoom">
         <div>
           <img className="picto" src="https://sendeyo.com/images/file.png"/>
-          <h3> {this.state.file.name} </h3>
+          <h3> {this.state.file.filename} </h3>
         </div>
         <div>
           <button><img src={view_icon}/> Ouvrir</button>
@@ -126,7 +126,8 @@ class App extends Component {
         </div>
         <div className="column">{column}</div>
         <div className={this.state.columntwo.length !== 0? "column column2" : "empty-column"}>{columntwo}</div>
-        <div className={this.state.file !== undefined ? "column column3" : "empty-column"}>{file}</div>
+        <div className={this.state.columnthree.length !== 0? "column column3" : "empty-column"}>{columnthree}</div>
+        <div className={this.state.file !== undefined ? "column column4" : "empty-column"}>{file}</div>
       </div>
     );
   }
@@ -135,19 +136,35 @@ class App extends Component {
 
 
 /** PRIVATE METHODS**/
-  openContent(index){
-    if (this.state.data[index].content === this.state.columntwo){
-      this.setState({
-        columntwo : [],
-        file : undefined,
-      })
-    }else{
-      this.setState({
-        columntwo : this.state.data[index].content,
-        file : undefined,
+  openContentToColumnTwo(index,path){
+
+    fetch("http://epa-backoffice.herokuapp.com/public/api/list?path="+path)
+      .then(r=>r.json())
+      .then(json=>{
+        let thisdir = this.state.data
+        thisdir[index].content = json;
+        this.setState({
+          data : thisdir,
+          columntwo: json,
+        })
+
       })
 
-    }
+
+  }
+
+  openContentToColumnThree(index,path){
+
+    fetch("http://epa-backoffice.herokuapp.com/public/api/list?path="+path)
+      .then(r=>r.json())
+      .then(json=>{
+        let thisdir = this.state.data
+        thisdir[index].content = json;
+        this.setState({
+          data : thisdir,
+          columnthree:json
+        })
+      })
   }
 
   openFile(file){
