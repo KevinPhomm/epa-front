@@ -41,6 +41,7 @@ class App extends Component {
     .then(json=>{
       this.setState({
         data:json,
+        columnone:json,
         allLoaded:true,
       })
     })
@@ -92,7 +93,7 @@ class App extends Component {
 
     let columntwo = []
     if (this.state.columntwo){
-
+      console.log(this.state.columntwo)
     this.state.columntwo.forEach((line,index)=>{
       columntwo.push(
         <div className="line" onClick={()=>this.openContentToColumnThree(index,line)}>
@@ -162,7 +163,11 @@ class App extends Component {
         file : undefined,
       })
     }else{
-      if(this.state.allLoaded){
+
+
+
+      if(this.state.allLoaded && line.content !== undefined){
+        console.log(line)
         this.setState({
           columntwo : line.content,
         })
@@ -176,6 +181,8 @@ class App extends Component {
           this.setState({
             data : thisdir,
             columntwo: json,
+            columnthree : [],
+            file : undefined
           })
 
         })
@@ -208,7 +215,8 @@ class App extends Component {
           columntwo[index].content = json;
           this.setState({
             columntwo : columntwo,
-            columnthree:json
+            columnthree:json,
+            
           })
         })
 
