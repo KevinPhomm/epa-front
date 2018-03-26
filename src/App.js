@@ -24,13 +24,26 @@ class App extends Component {
     columnthree:[],
     file : undefined,
 
+    allLoaded : false,
 
 
   }
 
   componentDidMount(){
     this._init();
+    this._loadAll();
 
+  }
+
+  _loadAll(){
+    fetch("http://epa-backoffice.herokuapp.com/public/api/list-folder-contents")
+    .then(r=>r.json())
+    .then(json=>{
+      this.setState({
+        data:json,
+        allLoaded:true,
+      })
+    })
   }
 
   _init(){
@@ -69,7 +82,7 @@ class App extends Component {
       // Icône pdf
 
       column.push(
-        <div className="line" onClick={()=>this.openContentToColumnTwo(index,line.path)}>
+        <div className="line" onClick={()=>this.openContentToColumnTwo(index,line)}>
           <input className="checkbox" type="checkbox"/>
           <img className="icon" src={icon} />
           <h3> {line.filename} </h3>
@@ -78,18 +91,21 @@ class App extends Component {
     })
 
     let columntwo = []
+    if (this.state.columntwo){
 
     this.state.columntwo.forEach((line,index)=>{
       columntwo.push(
-        <div className="line" onClick={()=>this.openContentToColumnThree(index,line.path)}>
+        <div className="line" onClick={()=>this.openContentToColumnThree(index,line)}>
           <input className="checkbox" type="checkbox"/>
           <img className="icon" src={line.type === "dir" ?  "http://www.icone-png.com/png/37/36873.png" : "https://sendeyo.com/images/file.png"}/>
           <h3> {line.filename} </h3>
         </div>
       )
     })
+  }
 
     let columnthree = []
+    if (this.state.columnthree){
 
     this.state.columnthree.forEach((line,index)=>{
       columnthree.push(
@@ -100,6 +116,7 @@ class App extends Component {
         </div>
       )
     })
+  }
 
     let file = []
 
@@ -136,35 +153,69 @@ class App extends Component {
 
 
 /** PRIVATE METHODS**/
-  openContentToColumnTwo(index,path){
+  openContentToColumnTwo(index,line){
 
-    fetch("http://epa-backoffice.herokuapp.com/public/api/list?path="+path)
-      .then(r=>r.json())
-      .then(json=>{
-        let thisdir = this.state.data
-        thisdir[index].content = json;
+    if(this.state.columnone[index].content === this.state.columntwo){
+      this.setState({
+        columntwo : [],
+        columnthree : [],
+        file : undefined,
+      })
+    }else{
+      if(this.state.allLoaded){
         this.setState({
-          data : thisdir,
-          columntwo: json,
+          columntwo : line.content,
+        })
+      }else{
+        fetch("http://epa-backoffice.herokuapp.com/public/api/list?path="+line.path)
+        .then(r=>r.json())
+        .then(json=>{
+          let thisdir = this.state.data
+          console.log(json)
+          thisdir[index].content = json;
+          this.setState({
+            data : thisdir,
+            columntwo: json,
+          })
+
         })
 
-      })
+      }
+
+    }
+
 
 
   }
 
-  openContentToColumnThree(index,path){
-
-    fetch("http://epa-backoffice.herokuapp.com/public/api/list?path="+path)
-      .then(r=>r.json())
-      .then(json=>{
-        let thisdir = this.state.data
-        thisdir[index].content = json;
-        this.setState({
-          data : thisdir,
-          columnthree:json
-        })
+  openContentToColumnThree(index,line){
+    if(this.state.columntwo[index].content === this.state.columnthree){
+      this.setState({
+        columnthree : [],
+        file : undefined,
       })
+    }else{
+      if(this.state.allLoaded){
+        this.setState({
+          columnthree : line.content,
+        })
+      }else{
+        fetch("http://epa-backoffice.herokuapp.com/public/api/list?path="+line.path)
+        .then(r=>r.json())
+        .then(json=>{
+          let thisdir = this.state.data
+          let columntwo = this.state.columntwo
+          columntwo[index].content = json;
+          this.setState({
+            columntwo : columntwo,
+            columnthree:json
+          })
+        })
+
+      }
+
+    }
+
   }
 
   openFile(file){
