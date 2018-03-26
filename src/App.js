@@ -11,8 +11,8 @@ import folder_icon from "./ressources/folder.png";
 import video_icon from "./ressources/video.png";
 import pdf_icon from "./ressources/pdf.png";
 import doc_icon from "./ressources/doc.png";
-import doc_big_icon from "./ressources/doc_big.png";
 import excel_icon from "./ressources/xls.png"
+import file_icon from "./ressources/file.png"
 
 class App extends Component {
 
@@ -67,6 +67,13 @@ class App extends Component {
         icon=pdf_icon
       }
       // Icône pdf
+      else if (line.type===""){
+        icon=video_icon
+      }
+      // Vidéo
+      else {
+        icon=file_icon
+      }
 
       column.push(
         <div className="line" onClick={()=>this.openContentToColumnTwo(index,line.path)}>
