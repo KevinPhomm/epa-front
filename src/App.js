@@ -176,7 +176,6 @@ class App extends Component {
         .then(r=>r.json())
         .then(json=>{
           let thisdir = this.state.data
-          console.log(json)
           thisdir[index].content = json;
           this.setState({
             data : thisdir,
@@ -190,9 +189,6 @@ class App extends Component {
       }
 
     }
-
-
-
   }
 
   openContentToColumnThree(index,line){
@@ -216,7 +212,7 @@ class App extends Component {
           this.setState({
             columntwo : columntwo,
             columnthree:json,
-            
+
           })
         })
 
@@ -225,6 +221,8 @@ class App extends Component {
     }
 
   }
+
+
 
   openFile(file){
     if (file === this.state.file){
